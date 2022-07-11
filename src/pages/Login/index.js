@@ -1,14 +1,25 @@
-import React, { useState } from "react"
+import React, { useState, useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContexts";
+
 
 const Login = () => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, Login, , errors] = useContext(AuthContext);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if(isLoggedIn){
+      navigate('/homepage');
+    }
+  },[])
   
-  const handleLoginSubmit =(e)=>{
+  
+  const handleLoginSubmit = (e)=>{
     e.preventDefault();
-
-    //console.log(`${user} : ${password}`);
+     Login(user, password);
+     navigate('/homepage');
   }
 
   return (
@@ -16,7 +27,7 @@ const Login = () => {
       <div className='row d-flex justyfy-content-center'>
         <div className='col-md-4'>
           <form id='loginform' onSubmit={handleLoginSubmit}>
-            <div className='form-group'>
+            <div className='form-group margin-bottom-05'>
               <label> User name</label>
               <input type='text'
               className='form-control'
@@ -27,7 +38,7 @@ const Login = () => {
               value={user}
               />
             </div>
-            <div className='form-group'>
+            <div className='form-group margin-bottom-05'>
               <label> Password</label>
               <input type='password'
               className='form-control'
@@ -38,7 +49,11 @@ const Login = () => {
               value={password}
               />
             </div>
-            <button type='submit' className="btn btn-secondary">Login</button>
+            <button type='submit' className="btn btn-secondary margin-bottom-05">Login</button>
+            {errors?
+            <div className="alert alert-danger" role="alert">
+              {errors}
+            </div>: null}
           </form>
         </div>
       </div>
