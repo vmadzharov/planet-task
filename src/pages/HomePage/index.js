@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
+import { AuthContext } from '../../contexts/AuthContexts';
 
 const HomePage = () => {
+  const {logout} = useContext(AuthContext);
   const [products, setProducts] = useState([]);
-
-  useEffect(()=>{
-    //setProducts([{ name: "product1", price: 3.14, color: "red" }])
-  },[])
-
+ 
+ 
   const handleClick =()=>{
     setProducts([{ name: "product1", price: 3.14, color: "red" }])
-
   }
 
-  //const productGet
+  const logoutHandler =()=>{
+    logout();
+  }
+
 
   return (
     <div className='container'>
@@ -22,7 +23,7 @@ const HomePage = () => {
           <button type="button" className="btn btn-primary btn-sm" onClick={handleClick}>Product 1</button>
           <button type="button" className="btn btn-secondary btn-sm">Product 2</button>
           <button type="button" className="btn btn-secondary btn-sm">Product 3</button>
-          <button type="button" className="btn btn-primary btn-sm">log out</button>
+          <button type="button" className="btn btn-primary btn-sm" onClick={logoutHandler}>log out</button>
 
           {products? products.map(product => (
             <div className="card"  key={product.name}>

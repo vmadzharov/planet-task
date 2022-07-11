@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContexts';
 import {Navigate} from 'react-router-dom';
 import routes from '../../pages/routes';
 
 const PrivateRoute= (props)=>{
+const {isLoggedIn} = useContext(AuthContext);
 
-const [loginStatus, setLoginStatus] = useState(true);
-   
-if(loginStatus){
+if(isLoggedIn){
 
     return props.children
   }
 
- return <Navigate to={routes.login.path} />
+return <Navigate to={routes.login.path} />
 }
 
 export default PrivateRoute;
