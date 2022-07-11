@@ -4,7 +4,7 @@ import routes from '../../pages/routes';
 
 const PrivateRoute= (props)=>{
 
-const [loginStatus, setLoginStatus] = useState(false);
+const [loginStatus, setLoginStatus] = useState(true);
    
 if(loginStatus){
 
