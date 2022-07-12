@@ -16,11 +16,8 @@ export default function AuthContextProvider(props){
         setErrors('');
         if(user==='user'&& pass==='pass'){
             setIsLoggedIn(true);
-            localStorage.setItem('planet', 'planet-user');
-            setTimeout(()=>{
-                localStorage.removeItem('planet');
-            }, 60000)
-            
+            const dataTime = new Date().getTime();
+            localStorage.setItem('planet', dataTime);
         }else{
             setIsLoggedIn(false)
             setErrors("Wrong credentials");
@@ -32,7 +29,7 @@ export default function AuthContextProvider(props){
      */
     const Logout = () => {
         localStorage.removeItem('planet');
-        setErrors('');
+        setErrors('You are not authorized!');
         setIsLoggedIn(false);
     }
 
