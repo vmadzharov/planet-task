@@ -2,37 +2,23 @@ import React, { useState, useEffect, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../contexts/AuthContexts';
 import axios from 'axios';
+import checkLocalStorage from '../../services/checkLocalStorige/checkLocalStorage';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [isLoggedIn, Login, Logout, errors] = useContext(AuthContext);
   const [error, setError] = useState('');
- 
-
-
-  function checkLocalStorage(){
-    const now = new Date().getTime();
-    const planet = localStorage.getItem('planet');
-    return new Promise((resolve, reject) => {
-      if((now - planet) < 60000 ){        
-        resolve(true)        
-			}else{
-        reject('Not authorise')
-        localStorage.removeItem('planet');
-      }
-    })
-  }
   
   const handleGetProduct =(e)=>{
     const current = e.currentTarget.value;
     if (!current){
       Logout();
       return
-    }  
+    }
+
     checkLocalStorage().then(() =>{
       return axios.get(`http://localhost:3001/products/${current}`);
-      }).then(response =>{
-        
+      }).then(response =>{        
       const prod =  response.data
       setError('');
       setProducts([prod]);
