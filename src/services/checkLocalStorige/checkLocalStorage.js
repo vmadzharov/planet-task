@@ -5,10 +5,9 @@
       if((now - planet) < 60000 ){        
         resolve(true)        
 			}else{
-        reject('Not authorise')
-        localStorage.removeItem('planet');
+        reject('You are not authorized!')
       }
-    })
+    });
   }
 
   export default checkLocalStorage;

@@ -9,30 +9,32 @@ const HomePage = () => {
   const [isLoggedIn, Login, Logout, errors] = useContext(AuthContext);
   const [error, setError] = useState('');
   
-  const handleGetProduct =(e)=>{
+  const handleGetProduct = async (e)=>{
     const current = e.currentTarget.value;
     if (!current){
       Logout();
       return
     }
 
-    checkLocalStorage().then(() =>{
-      return axios.get(`http://localhost:3001/products/${current}`);
-      }).then(response =>{        
-      const prod =  response.data
-      setError('');
-      setProducts([prod]);
-    }).catch(error=>{
-      setProducts([]);
-      if(error.response.status === 404){
-        setError('product not found')
-        return
-      }else if(error === 'Not authorise'){
-        setError(error)
-        Logout()
-        return  
-      }
-      setError(error)                
+    checkLocalStorage()
+    .then((res) =>{
+      console.log(res)
+      axios.get(`http://localhost:3001/products/${current}`)
+      .then(response =>{        
+        const prod =  response.data
+        setError('');
+        setProducts([prod]);
+      }).catch(error=>{
+        console.log("ERR: "+error)
+        setProducts([]);
+        if(error.response.status === 404){
+         setError('Product not found')
+        }                
+      });
+      })
+    .catch(err=>{
+      setError(err)
+      Logout()
     })
   }
   
@@ -46,7 +48,7 @@ const HomePage = () => {
           <button type="button" className="btn btn-secondary btn-sm" value={2} onClick={handleGetProduct}>Product 2</button>
           <button type="button" className="btn btn-primary btn-sm" onClick={handleGetProduct}>log out</button>
           </div>
-          {products? products.map(product => (
+          {products&& products.map(product => (
             <div className="card"  key={product.name}>
               <div className="card-body">
                 <h5 className="card-title">Product {product.name}</h5>
@@ -56,8 +58,8 @@ const HomePage = () => {
                 </ul>
               </div>
             </div>
-          )): null}
-          {error? (
+          ))}
+          {error&&(
             <div className="card">
             <div className="card-body">
               <h5 className="card-title">Error</h5>
@@ -66,7 +68,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
-          ):null} 
+          )} 
         </div>
       </div>
     </div>

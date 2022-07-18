@@ -28,7 +28,6 @@ export default function AuthContextProvider(props){
      * Logout
      */
     const Logout = () => {
-        localStorage.removeItem('planet');
         setErrors('You are not authorized!');
         setIsLoggedIn(false);
     }
